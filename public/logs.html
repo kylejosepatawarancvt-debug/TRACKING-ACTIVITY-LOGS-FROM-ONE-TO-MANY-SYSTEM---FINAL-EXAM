@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Audit Logs</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav>
+        <h1>PM Audit Workspace</h1>
+        <a href="index.html">Workspace Dashboard</a>
+        <a href="logs.html" class="active">System Activity Logs</a>
+    </nav>
+
+    <div class="main-content">
+        <div class="container">
+            <h2>Immutable Platform Activity Logs</h2>
+            <blockquote>Note: Direct updates or row deletions of logging frames are hard-restricted on this audit table matrix.</blockquote>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Log ID</th>
+                        <th>User Performing Operation</th>
+                        <th>CRUD Operation Type</th>
+                        <th>Entity Affected</th>
+                        <th>System Tracking Details</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody id="logsTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        async function fetchLogs() {
+            const res = await fetch('/api/logs');
+            const logs = await res.json();
+            const body = document.getElementById('logsTableBody');
+            body.innerHTML = logs.map(log => `
+                <tr>
+                    <td><strong>#${log.id}</strong></td>
+                    <td style="color:#3b82f6; font-weight:bold;">${log.username}</td>
+                    <td><span style="padding:4px 10px; border-radius:20px; background:#f1f5f9; font-size:0.75rem; font-weight:700; color:#475569;">${log.action_type}</span></td>
+                    <td>${log.entity_affected}</td>
+                    <td><em>${log.details}</em></td>
+                    <td>${new Date(log.timestamp).toLocaleString()}</td>
+                </tr>
+            `).join('');
+        }
+        window.onload = fetchLogs;
+    </script>
+</body>
+</html>

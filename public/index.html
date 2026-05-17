@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Workspace Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav>
+        <h1>PM Audit Workspace</h1>
+        <a href="index.html" class="active">Workspace Dashboard</a>
+        <a href="logs.html">System Activity Logs</a>
+        
+        <div class="user-profile">
+            <span id="activeUser">User: Loading...</span>
+            <a href="/api/logout" class="btn-danger" style="text-align:center; color:white; margin:0; display:block; text-decoration:none;">Log Out</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        
+        <div class="container">
+            <h2>Global Entity Search Bar</h2>
+            <input type="text" id="searchInput" placeholder="Type here to live-search parent projects or child tasks..." onkeyup="executeSearch()">
+            <div id="searchResults" style="margin-top: 15px;"></div>
+        </div>
+        
+        <div class="container">
+            <h2>Parent Entities: Manage Projects</h2>
+            <form id="projectForm">
+                <input type="hidden" id="projectId">
+                <div>
+                    <label>Project Name</label>
+                    <input type="text" id="projectName" placeholder="e.g., Website Redesign" required>
+                </div>
+                <div class="full-row">
+                    <label>Project Description</label>
+                    <textarea id="projectDesc" placeholder="Describe the overall scope of this project..."></textarea>
+                </div>
+                <div>
+                    <label>Target Deadline</label>
+                    <input type="date" id="projectDeadline" required>
+                </div>
+                <div class="btn-group">
+                    <button type="submit">Save Parent Project</button>
+                    <button type="button" onclick="clearProjectForm()">Clear Form</button>
+                </div>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Project Name</th>
+                        <th>Description</th>
+                        <th>Deadline</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="projectTableBody"></tbody>
+            </table>
+        </div>
+        
+        <div class="container">
+            <h2>Child Entities: Manage Tasks</h2>
+            <form id="taskForm">
+                <input type="hidden" id="taskId">
+                <div>
+                    <label>Belongs to Parent Project</label>
+                    <select id="taskProjectParent" required>
+                        <option value="">-- Choose Assigned Parent Project --</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Task Name</label>
+                    <input type="text" id="taskName" placeholder="e.g., Build Database Schema" required>
+                </div>
+                <div>
+                    <label>Assigned Worker</label>
+                    <input type="text" id="taskAssignee" placeholder="User account name">
+                </div>
+                <div>
+                    <label>Current Status</label>
+                    <select id="taskStatus">
+                        <option value="To Do">To Do</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Done">Done</option>
+                    </select>
+                </div>
+                <div class="btn-group">
+                    <button type="submit">Save Child Task</button>
+                    <button type="button" onclick="clearTaskForm()">Clear Form</button>
+                </div>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Belongs To Project</th>
+                        <th>Task Name</th>
+                        <th>Assignee</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="taskTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
